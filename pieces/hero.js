@@ -25,7 +25,7 @@ export function heroDoll(H) {
       gg.fillStyle = ink(C.bootB); D.rect(gg, -0.145, 0.21, 0.29, 0.06, 0.02);                // tacco
       gg.fillStyle = ink('#f2e2c2', 'print'); gg.fillRect(-0.095, 0.42, 0.014, 0.56);        // cucitura
       gg.fillStyle = ink('#d9a94e', 'print'); gg.fillRect(-0.14, 0.015, 0.28, 0.028);         // suola
-    }, { w: 0.28, h: 1.02, name: 'gamba' });
+    }, { w: 0.36, h: 1.02, name: 'gamba' });
     const profile = paint((gg, ink) => {
       gg.fillStyle = ink(P2.shade(C.denim, -0.08)); D.rect(gg, -0.1, 0.2, 0.2, 0.82, 0.05);
       gg.fillStyle = ink(P2.shade(C.denimB, -0.05)); D.rect(gg, -0.1, 0.2, 0.2, 0.12, 0.03);

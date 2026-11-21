@@ -9,7 +9,7 @@ const url = args[0];
 const out = args[1] || 'shot.png';
 const opt = (k, d) => { const a = args.find((s) => s.startsWith('--' + k + '=')); return a ? a.split('=').slice(1).join('=') : d; };
 const evals = args.filter((s) => s.startsWith('--eval=')).map((s) => s.slice(7));
-const W = +opt('w', 1600), Hh = +opt('h', 900), DPR = +opt('dpr', 1), WAIT = +opt('wait', 6000), PORT = +opt('port', 9333);
+const W = +opt('w', 1600), Hh = +opt('h', 900), DPR = +opt('dpr', 1), MOBILE = opt('mobile', '0') === '1', WAIT = +opt('wait', 6000), PORT = +opt('port', 9333);
 
 const chrome = spawn('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', [
   '--headless=new', '--hide-scrollbars', `--window-size=${W},${Hh}`, `--force-device-scale-factor=${DPR}`,
@@ -52,7 +52,8 @@ await send('Runtime.enable', {}, sessionId);
 await send('Log.enable', {}, sessionId);
 await send('Network.enable', {}, sessionId);
 await send('Network.setCacheDisabled', { cacheDisabled: true }, sessionId);
-await send('Emulation.setDeviceMetricsOverride', { width: W, height: Hh, deviceScaleFactor: DPR, mobile: false }, sessionId);
+await send('Emulation.setDeviceMetricsOverride', { width: W, height: Hh, deviceScaleFactor: DPR, mobile: MOBILE }, sessionId);
+if (MOBILE) await send('Emulation.setTouchEmulationEnabled', { enabled: true, maxTouchPoints: 5 }, sessionId);
 await send('Page.navigate', { url }, sessionId);
 await sleep(WAIT);
 const results = {};

@@ -22,6 +22,7 @@ import { createHarness } from './harness.js';
 import { C, base, plain, shade, mix, rgba, arc, rrect } from './pieces/palette.js';
 import { heroDoll } from './pieces/hero.js';
 
+const TOUCH = matchMedia('(pointer: coarse)').matches || (navigator.maxTouchPoints || 0) > 0;
 const H = createHarness({
   ground: C.floor,
   bounds: { x0: -46, x1: 46, z0: -32, z1: 40 },
@@ -29,12 +30,14 @@ const H = createHarness({
   testView: { dist: 30, target: [3, 1.5, -6] },
   heroHeight: 3.6,
   play: true,
-  light: { leak: C.leak, shadowExtent: 56, distance: 110, mapSize: 4096 },
+  light: { leak: C.leak, shadowExtent: 56, distance: 110, mapSize: TOUCH ? 2048 : 4096 },
   lens: { haze: C.haze, hazeStart: 40, hazeEnd: 110, hazeAmount: 0.2, bloom: 0.3, bloomThreshold: 0.78,
+    taps: TOUCH ? 24 : 40, maxBlur: TOUCH ? 13 : 16, ao: TOUCH ? 0.95 : 1.35,
     exposure: 0.75, contrast: 1.24, saturation: 1.04, vignette: 0.055, shadowLift: 0.045, ao: 1.35 },
   walk: { step: 0.8, radius: 0.55 },
 });
 const { popup, walk, flags, P2: K2 } = H;
+if (TOUCH) H.renderer.setPixelRatio(Math.min(1.5, devicePixelRatio));   // iPhone: 1.5x basta, il resto è bloom e blur
 const D = P2.draw2;
 
 // ===============================================================================================================
@@ -175,9 +178,23 @@ import { buildRoom } from './pieces/room.js';
 import { buildFurniture } from './pieces/furniture.js';
 import { buildProps } from './pieces/props.js';
 import { buildForeground, buildFillers } from './pieces/foreground.js';
+import { installTouchControls } from './ui-touch.js';
 
 // il salto: lo spazio si chiama "il tappeto", la stanza è il livello
 H.start();
+installTouchControls(H);
+
+// in verticale (iPhone) il campo orizzontale si stringe: si arretra la camera, così si vede la stanza e non un dettaglio
+{
+  const BASE_DIST = H.view.dist;
+  const fit = () => {
+    const a = H.camera.aspect || 1;
+    H.view.dist = BASE_DIST * (a < 1.2 ? Math.min(2.0, Math.pow(1.2 / a, 0.85)) : 1);
+  };
+  addEventListener('resize', fit);
+  addEventListener('orientationchange', () => setTimeout(fit, 120));
+  fit();
+}
 window.__andy = { H };   // maniglia di debug: __andy.H.walk.walkMap(...), __andy.H.hero, ...
 
 document.getElementById('boot')?.classList.add('gone');

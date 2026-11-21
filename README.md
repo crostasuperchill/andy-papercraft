@@ -16,6 +16,7 @@ python3 -m http.server 8177 --bind 127.0.0.1
 # poi apri http://127.0.0.1:8177/
 ```
 
+- **iPhone / touch**: levetta in basso a sinistra per camminare, bottone **SALTA** a destra (si installa da solo)
 - **WASD / frecce**: cammina (il camera-follow ti sta dietro, con zona morta e anticipo)
 - **spazio** (o J): salta. Salto ~5.3 unità: dal pavimento al letto, sedia → scrivania, mensola → mensola
 - **trascina col mouse**: inclina/orienta la camera (l'inclinazione resta fra 40 e 55 gradi)
@@ -37,7 +38,8 @@ pieces/room.js      muro a nuvole, finestra che brilla, porta, disegni appesi
 pieces/furniture.js letto, scrivania, sedia, cassettone, baule, libreria (platform aperti e camminabili)
 pieces/props.js     Rex, Patata, Slinky, salvadanaio, astronauta, soldatini, blocchi, RC, palla, aereo, orsetto
 pieces/foreground.js carte grandi sfocate sul bordo basso + piccoli giocattoli che riempiono la fascia nitida
-tools/probe.mjs     Chrome headless via CDP: console, eccezioni, eval, screenshot (il modo per verificare)
+ui-touch.js         levetta + bottone di salto: traducono il dito in KeyW/A/S/D e Space
+ tools/probe.mjs     Chrome headless via CDP: console, eccezioni, eval, screenshot (--mobile=1 per iPhone)
 tools/record.mjs    registra un clip deterministico (step + captureScreenshot -> ffmpeg)
 atlas.html          debug: stampa in griglia le carte di un pezzo, senza 3D
 ```
@@ -60,6 +62,6 @@ Verificato con test scriptati sulla build: salto tappeto→letto (4.67), sedia�
 B→C (9.88), baule (2.78); nessun errore in console; `measure.py` 16 PASS / 4 WARN (printDetail, localContrast,
 barePct, warmthLR: il tappeto-gioco tiene volutamente molto terreno aperto al centro).
 
-Non verificato: fps su GPU lenta, controlli touch (solo tastiera), mood `?mood=dusk|night` (la lampada è accesa ma le
+Non verificato: fps su GPU lenta, mood `?mood=dusk|night` (la lampada è accesa ma le
 pronte pratiche non sono state ritoccate), e i libri/giocattoli appoggiati sui piani non hanno solidi (ci si passa
 attraverso).

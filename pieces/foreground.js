@@ -14,7 +14,7 @@ export function buildForeground(H) {
     g.fillStyle = ink('#f0e2c0'); D.rect(g, 1.4, 0, 2.0, 1.5, 0.1);
     g.fillStyle = ink('#c8483d', 'print'); g.fillRect(1.55, 0.55, 1.7, 0.16); g.fillRect(1.55, 0.85, 1.7, 0.16);
     g.fillStyle = ink('#5a3a20', 'print'); g.fillRect(1.6, 0.22, 1.6, 0.06);
-  }, { w: 6.6, h: 1.6, name: 'pastello', layer: { depth: 0.6 } });
+  }, { w: 7.4, h: 1.8, name: 'pastello', layer: { depth: 0.6 } });
   H.popup(crayon[0], crayon[1], { x: 25, z: 13.5, yaw: -0.5, scale: 2.3, height: 3 });
 
   // un calzino rovesciato: polsino a righe, tallone e punta
