@@ -1,0 +1,41 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>atlas di stampa</title>
+<style>body{margin:0;background:#1d1712;color:#f0e0c4;font:12px ui-sans-serif}canvas{display:block}</style></head>
+<body>
+<canvas id="c" width="1600" height="1200"></canvas>
+<script type="importmap">{ "imports": { "three": "./vendor/three.module.js", "papercraft/": "./" } }</script>
+<script type="module">
+// Debug: stampa in griglia le stampe di ogni carta di un pezzo, senza 3D. ?piece=hero
+import * as THREE from 'three';
+import * as P2 from 'papercraft/lib/paperkit-2d.js';
+import { paperTextures } from 'papercraft/lib/paperkit-3d.js';
+import { heroDoll } from './pieces/hero.js';
+
+const q = new URLSearchParams(location.search);
+const renderer = new THREE.WebGLRenderer();
+const paper = paperTextures(renderer, { color: '#f7f0e2', seed: 4, unitsPerTile: 5, fibres: 1.5, mottle: 0.08, normalStrength: 3 });
+const H = { THREE, P2, paper };
+const node = heroDoll(H);
+const cells = [];
+node.traverse((o) => {
+  if (!o.isMesh) return;
+  const mats = Array.isArray(o.material) ? o.material : [o.material];
+  const map = mats[0] && mats[0].map;
+  if (map && map.image) cells.push({ img: map.image, name: o.name || '' });
+});
+const c = document.getElementById('c'), g = c.getContext('2d');
+g.fillStyle = '#1d1712'; g.fillRect(0, 0, c.width, c.height);
+let x = 8, y = 8, rowH = 0;
+for (const cell of cells) {
+  const k = Math.min(3, 220 / Math.max(cell.img.width, 1));
+  const w = cell.img.width * k, h = cell.img.height * k;
+  if (x + w > c.width - 8) { x = 8; y += rowH + 14; rowH = 0; }
+  g.drawImage(cell.img, x, y, w, h);
+  g.strokeStyle = '#5a4a34'; g.strokeRect(x, y, w, h);
+  g.fillStyle = '#c8b58c'; g.fillText(`${cell.img.width}x${cell.img.height}`, x, y + h + 10);
+  x += w + 12; rowH = Math.max(rowH, h);
+}
+document.title = `atlas: ${cells.length} stampe`;
+window.__atlas = { cells: cells.length };
+</script>
+</body></html>

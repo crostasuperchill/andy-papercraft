@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>La stanza di Andy · un diorama di carta</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #2a1d12; overflow: hidden; }
+  canvas { display: block; }
+  #hint {
+    position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%);
+    font: 500 13px/1.5 ui-sans-serif, -apple-system, "Helvetica Neue", sans-serif;
+    letter-spacing: .02em; color: #f7ead2; background: rgba(44, 28, 16, .62);
+    border: 1px solid rgba(247, 234, 210, .18); border-radius: 999px;
+    padding: 9px 16px; backdrop-filter: blur(6px); pointer-events: none;
+    transition: opacity .6s ease; white-space: nowrap;
+  }
+  #hint b { color: #ffd79b; font-weight: 600; }
+  #hint.gone { opacity: 0; }
+  #boot {
+    position: fixed; inset: 0; display: grid; place-items: center; z-index: 9;
+    background: #2a1d12; color: #f0dfc2; font: 500 14px/1.6 ui-sans-serif, -apple-system, sans-serif;
+    letter-spacing: .04em; transition: opacity .5s ease; text-align: center;
+  }
+  #boot.gone { opacity: 0; pointer-events: none; }
+  #boot span { display: block; opacity: .55; font-size: 12px; margin-top: 6px; }
+</style>
+</head>
+<body>
+<div id="boot">si apre il libro…<span>ritaglio, piega, colla</span></div>
+<script>
+  // se qualcosa esplode mentre si monta il mondo, lo si legge nello screenshot invece di fissare un rettangolo marrone
+  addEventListener('error', (e) => {
+    const b = document.getElementById('boot');
+    if (b) { b.innerHTML = 'errore: ' + (e.message || e) + '<span>' + (e.filename || '') + ':' + (e.lineno || '') + '</span>'; b.style.fontSize = '13px'; }
+  });
+  addEventListener('unhandledrejection', (e) => {
+    const b = document.getElementById('boot');
+    if (b) b.innerHTML = 'errore: ' + (e.reason && (e.reason.stack || e.reason.message) || e.reason);
+  });
+</script>
+<div id="hint"><b>WASD</b> / frecce per camminare · <b>spazio</b> per saltare · trascina per girare</div>
+<script type="importmap">
+{ "imports": { "three": "./vendor/three.module.js", "papercraft/": "./" } }
+</script>
+<script type="module" src="./scene.js"></script>
+</body>
+</html>
