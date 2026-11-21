@@ -8,13 +8,13 @@ const D = P2.draw2;
 export function buildForeground(H) {
   // un pastello enorme, sdraiato: carta con l'etichetta e la punta di cera
   const crayon = P2.drawnPiece((g, ink) => {
-    g.fillStyle = ink('#c8483d'); D.rect(g, -0.7, 0, 5.6, 1.5, 0.4);
-    g.fillStyle = ink(shade('#c8483d', -0.12)); D.rect(g, -0.7, 0, 5.6, 0.4, 0.2);
-    g.fillStyle = ink('#8f3228'); D.poly(g, [[-0.7, 0.15], [-1.6, 0.75], [-0.7, 1.35]]);
-    g.fillStyle = ink('#f0e2c0'); D.rect(g, 1.4, 0, 2.0, 1.5, 0.1);
-    g.fillStyle = ink('#c8483d', 'print'); g.fillRect(1.55, 0.55, 1.7, 0.16); g.fillRect(1.55, 0.85, 1.7, 0.16);
-    g.fillStyle = ink('#5a3a20', 'print'); g.fillRect(1.6, 0.22, 1.6, 0.06);
-  }, { w: 7.4, h: 1.8, name: 'pastello', layer: { depth: 0.6 } });
+    g.fillStyle = ink('#c8483d'); D.rect(g, -2.8, 0, 5.6, 1.5, 0.4);
+    g.fillStyle = ink(shade('#c8483d', -0.12)); D.rect(g, -2.8, 0, 5.6, 0.4, 0.2);
+    g.fillStyle = ink('#8f3228'); D.poly(g, [[-2.8, 0.15], [-3.7, 0.75], [-2.8, 1.35]]);
+    g.fillStyle = ink('#f0e2c0'); D.rect(g, 0.4, 0, 2.0, 1.5, 0.1);
+    g.fillStyle = ink('#c8483d', 'print'); g.fillRect(0.55, 0.55, 1.7, 0.16); g.fillRect(0.55, 0.85, 1.7, 0.16);
+    g.fillStyle = ink('#5a3a20', 'print'); g.fillRect(0.6, 0.22, 1.6, 0.06);
+  }, { w: 8, h: 1.9, name: 'pastello', layer: { depth: 0.6 } });
   H.popup(crayon[0], crayon[1], { x: 25, z: 13.5, yaw: -0.5, scale: 2.3, height: 3 });
 
   // un calzino rovesciato: polsino a righe, tallone e punta
