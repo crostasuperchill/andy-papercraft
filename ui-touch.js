@@ -72,7 +72,7 @@ export function installTouchControls(H) {
   stick.addEventListener('pointerdown', (e) => {
     id = e.pointerId; const r = stick.getBoundingClientRect();
     cx = r.left + r.width / 2; cy = r.top + r.height / 2;
-    stick.setPointerCapture(e.pointerId); move(e); e.preventDefault();
+    try { stick.setPointerCapture(e.pointerId); } catch {} move(e); e.preventDefault();
   });
   stick.addEventListener('pointermove', move);
   const end = (e) => { if (e.pointerId !== id) return; id = null; releaseAll(); };
